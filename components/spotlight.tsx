@@ -17,7 +17,7 @@ export default function Spotlight() {
         if (spotlight) {
           spotlight.style.background = `radial-gradient(
             800px circle at ${clientX}px ${clientY}px,
-            rgba(255, 255, 255, 0.6),
+            rgba(255, 251, 211, 0.6),
             transparent 40%
           )`
         }

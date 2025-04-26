@@ -30,7 +30,7 @@ export default function Home() {
             </p>
 
             <div className="mt-8">
-              <Button className="group relative overflow-hidden rounded-full bg-black px-12 py-8 text-lg font-medium text-white transition-all hover:bg-black/90">
+              <Button className="group relative overflow-hidden rounded-full bg-black px-12 py-8 text-lg font-medium text-white border border-black/0 transition-all hover:bg-white hover:text-black hover:border-black">
                 Start Exploring!
                 <span className="absolute inset-0 rounded-full border border-black/0 transition-all duration-300 group-hover:border-black/30 group-hover:animate-pulse"></span>
               </Button>
