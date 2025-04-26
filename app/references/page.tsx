@@ -19,7 +19,7 @@ export default function ReferencesPage() {
         <main className="mx-auto max-w-7xl px-6 pt-40 sm:px-8 lg:px-10">
           <div className="mb-16 max-w-3xl">
             <h1 className="mb-6 text-5xl font-black tracking-tight text-black md:text-6xl">
-              VCell Smart Model Explorer
+              Smart VCell<br />Model Explorer
             </h1>
             <p className="text-xl text-gray-700">
               A comprehensive collection of references, papers, and data sources that power our biological modeling
@@ -32,25 +32,39 @@ export default function ReferencesPage() {
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {[
                 {
-                  title: "Computational Modeling of Cellular Signaling Processes",
-                  authors: "Johnson et al.",
-                  journal: "Nature Biotechnology",
-                  year: "2022",
-                  doi: "10.1038/nbt.4567",
+                  title: "Leveraging public AI tools to explore systems biology resources in mathematical modeling",
+                  authors: "Meera Kannan, Gabrielle Bridgewater, Ming Zhang & Michael L. Blinov",
+                  journal: "NPJ Systems Biology and Applications",
+                  year: "2025",
+                  doi: "10.1038/s41540-025-00496-z",
                 },
                 {
-                  title: "Systems Biology Approach to Understanding Cell Cycle Regulation",
-                  authors: "Zhang & Williams",
-                  journal: "Cell Systems",
+                  title: "Virtual cell modeling and simulation software",
+                  authors: "I.I. Moraru, J.C. Schaff, B.M. Slepchenko, M.L. Blinov, F. Morgan, A. Lakshminarayana, F. Gao, Y. Li, and L.M. Loew",
+                  journal: "IET Systems Biology",
+                  year: "2008",
+                  doi: "10.1049/iet-syb:20080102",
+                },
+                {
+                  title: "SBGN Bricks Ontology as a tool to describe recurring concepts in molecular networks",
+                  authors: "Adrien Rougny , Vasundra Touré , John Albanese , Dagmar Waltemath , Denis Shirshov , Anatoly Sorokin , Gary D Bader , Michael L Blinov , Alexander Mazein",
+                  journal: "Briefings in Bioinformatics",
                   year: "2021",
-                  doi: "10.1016/j.cels.2021.03.002",
+                  doi: "10.1093/bib/bbab049",
                 },
                 {
-                  title: "Machine Learning Applications in Molecular Biology",
-                  authors: "Patel et al.",
-                  journal: "Bioinformatics",
-                  year: "2023",
-                  doi: "10.1093/bioinformatics/btad123",
+                  title: "Attention Is All You Need",
+                  authors: "Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, Illia Polosukhin",
+                  journal: "neurips",
+                  year: "2017",
+                  doi: "10.48550/arXiv.1706.03762",
+                },
+                {
+                  title: "bnglViz: online visualization of rule-based models",
+                  authors: "Noah Liguori-Bills, Michael L Blinov",
+                  journal: "Bioinformatics, Volume 40, Issue 6, June 2024, btae351",
+                  year: "2024",
+                  doi: "10.1093/bioinformatics/btae351",
                 },
               ].map((paper, index) => (
                 <Card key={index} className="group overflow-hidden transition-all duration-300 hover:shadow-md">
@@ -95,18 +109,18 @@ export default function ReferencesPage() {
           </div>
 
           <div className="mb-20">
-            <h2 className="mb-8 text-2xl font-semibold">Data Sources</h2>
+            <h2 className="mb-8 text-2xl font-semibold">Data Sources & Other Tools</h2>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               {[
                 {
-                  title: "BioModels Database",
-                  description: "A repository of mathematical models of biological processes.",
-                  url: "https://www.ebi.ac.uk/biomodels/",
+                  title: "VCell Database",
+                  description: "The Virtual Cell Database repository stores all the models created using the Virtual Cell software.",
+                  url: "https://vcell.cam.uchc.edu/api/v0/biomodel",
                 },
                 {
-                  title: "Cell Collective",
-                  description: "A platform for building and simulating logical models of biological systems.",
-                  url: "https://cellcollective.org/",
+                  title: "BioNetGenLanguage (BNGL) code visualizer",
+                  description: "BioNetGen is software designed for modular, structure-based modeling of biochemical reaction networks. ",
+                  url: "https://bnglviz.github.io/",
                 },
               ].map((source, index) => (
                 <Card key={index} className="group overflow-hidden transition-all duration-300 hover:shadow-md">
