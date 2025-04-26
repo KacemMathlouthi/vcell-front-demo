@@ -157,6 +157,62 @@ export default function ReferencesPage() {
               ))}
             </div>
           </div>
+
+          <div className="mb-20">
+            <h2 className="mb-8 text-2xl font-semibold">GitHub Repositories</h2>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              {[
+                {
+                  name: "vcell-demo",
+                  description: "Backend and API for the VCell Model Explorer demo.",
+                  url: "https://github.com/KacemMathlouthi/VCell-Demo",
+                  technologies: ["Python", "Streamlit", "Ollama", "Groq", "VCell API"],
+                },
+                {
+                  name: "vcell-front-demo",
+                  description: "Frontend application for the VCell Model Explorer.",
+                  url: "https://github.com/KacemMathlouthi/vcell-front-demo",
+                  technologies: ["React", "Next.js", "TypeScript", "Tailwind CSS", "ShadCN"],
+                },
+              ].map((repo, index) => (
+                <Card key={index} className="group overflow-hidden transition-all duration-300 hover:shadow-md">
+                  <CardHeader>
+                    <CardTitle>{repo.name}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="mb-2 text-gray-600">{repo.description}</p>
+                    <p className="mb-4 text-sm text-gray-700">
+                      <span className="font-semibold">Technologies:</span> {repo.technologies.join(", ")}
+                    </p>
+                    <a
+                      href={repo.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center text-sm font-medium text-black underline-offset-4 hover:underline"
+                    >
+                      View Repository
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="ml-1"
+                      >
+                        <path d="M7 7h10v10" />
+                        <path d="M7 17 17 7" />
+                      </svg>
+                    </a>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
         </main>
       </div>
     </div>
