@@ -30,16 +30,38 @@ export default function Header() {
         </div>
 
         <nav className="hidden items-center space-x-12 md:flex">
-          {["References", "Database", "Documentation", "Contact Us"].map((item) => (
-            <Link
-              key={item}
-              href={`/${item.toLowerCase().replace(/\s+/g, "-")}`}
-              className="group relative text-sm font-medium text-gray-800 transition-all hover:text-black"
-            >
-              {item}
-              <span className="absolute -bottom-1 left-0 h-[1px] w-0 bg-black transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-          ))}
+          <Link
+            href="/references"
+            className="group relative text-sm font-medium text-gray-800 transition-all hover:text-black"
+          >
+            References
+            <span className="absolute -bottom-1 left-0 h-[1px] w-0 bg-black transition-all duration-300 group-hover:w-full"></span>
+          </Link>
+          <a
+            href="https://vcell.cam.uchc.edu/api/v0/biomodel"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative text-sm font-medium text-gray-800 transition-all hover:text-black"
+          >
+            Database
+            <span className="absolute -bottom-1 left-0 h-[1px] w-0 bg-black transition-all duration-300 group-hover:w-full"></span>
+          </a>
+          <a
+            href="https://github.com/KacemMathlouthi/vcell-front-demo"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative text-sm font-medium text-gray-800 transition-all hover:text-black"
+          >
+            Documentation
+            <span className="absolute -bottom-1 left-0 h-[1px] w-0 bg-black transition-all duration-300 group-hover:w-full"></span>
+          </a>
+          <a
+            href="mailto:blinov@uchc.edu"
+            className="group relative text-sm font-medium text-gray-800 transition-all hover:text-black"
+          >
+            Contact Us
+            <span className="absolute -bottom-1 left-0 h-[1px] w-0 bg-black transition-all duration-300 group-hover:w-full"></span>
+          </a>
         </nav>
 
         <div className="block md:hidden">
