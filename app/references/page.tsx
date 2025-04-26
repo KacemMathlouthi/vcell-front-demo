@@ -143,43 +143,6 @@ export default function ReferencesPage() {
               ))}
             </div>
           </div>
-
-          <div className="mb-20">
-            <h2 className="mb-8 text-2xl font-semibold">Database Information</h2>
-            <Card className="overflow-hidden">
-              <CardHeader>
-                <CardTitle>VCell Database Architecture</CardTitle>
-                <CardDescription>Technical specifications and structure of our knowledge base</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div>
-                    <h3 className="mb-2 text-lg font-medium">Database Type</h3>
-                    <p className="text-gray-700">
-                      Graph database optimized for biological pathway relationships and model interactions
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="mb-2 text-lg font-medium">Data Structure</h3>
-                    <p className="text-gray-700">
-                      Hierarchical organization of models, pathways, reactions, and molecular entities with
-                      bidirectional relationships
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="mb-2 text-lg font-medium">Update Frequency</h3>
-                    <p className="text-gray-700">Monthly updates with new research papers and model refinements</p>
-                  </div>
-                  <div>
-                    <h3 className="mb-2 text-lg font-medium">Data Sources</h3>
-                    <p className="text-gray-700">
-                      Integration of multiple public repositories, proprietary datasets, and peer-reviewed publications
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
         </main>
       </div>
     </div>

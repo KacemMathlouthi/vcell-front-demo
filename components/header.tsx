@@ -21,7 +21,7 @@ export default function Header() {
         scrolled ? "bg-white/95 backdrop-blur-md shadow-sm" : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex h-28 max-w-7xl items-center justify-between px-6 sm:px-8 lg:px-10">
+      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-6 sm:px-8 lg:px-10">
         <div className="flex items-center">
           <Link href="/" className="group relative text-2xl font-bold text-black transition-all">
             VCell

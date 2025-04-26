@@ -20,18 +20,18 @@ export default function Home() {
           <div className="max-w-5xl text-center">
             <div className="relative mb-6">
               <h1 className="text-5xl font-black tracking-tight text-black md:text-6xl lg:text-7xl xl:text-8xl">
-                VCell Smart Model Explorer
+                Smart VCell <br /> Model Explorer
               </h1>
               <div className="mx-auto mt-4 h-1 w-40 bg-black/20"></div>
             </div>
 
             <p className="mx-auto mt-8 max-w-3xl text-xl font-light leading-relaxed text-gray-800 md:text-2xl">
-              Explore complex biological systems with precision and elegance
+              Explore complex Biomodels using Natural Language commands.
             </p>
 
-            <div className="mt-16">
+            <div className="mt-8">
               <Button className="group relative overflow-hidden rounded-full bg-black px-12 py-8 text-lg font-medium text-white transition-all hover:bg-black/90">
-                Start Exploring
+                Start Exploring!
                 <span className="absolute inset-0 rounded-full border border-black/0 transition-all duration-300 group-hover:border-black/30 group-hover:animate-pulse"></span>
               </Button>
             </div>
