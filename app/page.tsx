@@ -1,9 +1,14 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import AnimatedGradient from "@/components/animated-gradient"
 import Header from "@/components/header"
 import Spotlight from "@/components/spotlight"
+import { useRouter } from "next/navigation" 
 
 export default function Home() {
+  const router = useRouter() 
+
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-white">
       {/* Animated gradient background */}
@@ -30,7 +35,9 @@ export default function Home() {
             </p>
 
             <div className="mt-8">
-              <Button className="group relative overflow-hidden rounded-full bg-black px-12 py-8 text-lg font-medium text-white border border-black/0 transition-all hover:bg-white hover:text-black hover:border-black">
+              <Button className="group relative overflow-hidden rounded-full bg-black px-12 py-8 text-lg font-medium text-white border border-black/0 transition-all hover:bg-white hover:text-black hover:border-black"
+                onClick={() => router.push("/chat")}
+              > 
                 Start Exploring!
                 <span className="absolute inset-0 rounded-full border border-black/0 transition-all duration-300 group-hover:border-black/30 group-hover:animate-pulse"></span>
               </Button>

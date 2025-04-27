@@ -27,11 +27,11 @@ export default function AnimatedGradient() {
 
     // Vibrant, dreamy pastel colors
     const colors = [
-      { r: 255, g: 220, b: 245 }, // Soft pink
-      { r: 200, g: 235, b: 255 }, // Light blue
-      { r: 255, g: 255, b: 220 }, // Pale yellow
-      { r: 220, g: 255, b: 235 }, // Mint
-      { r: 255, g: 240, b: 220 }, // Peach
+      { r: 255, g: 245, b: 252 }, // Very light pink
+      { r: 240, g: 250, b: 255 }, // Very light blue
+      { r: 255, g: 255, b: 240 }, // Very pale yellow
+      { r: 240, g: 255, b: 250 }, // Very light mint
+      { r: 255, g: 250, b: 240 }, // Very light peach
     ]
 
     // More points for richer gradients
