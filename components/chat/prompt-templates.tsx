@@ -1,5 +1,3 @@
-"use client"
-
 import { Card } from "@/components/ui/card"
 import { Search, Network, BookOpenText, FileText } from "lucide-react"
 

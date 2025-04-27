@@ -1,16 +1,12 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import Header from "@/components/header"
 import AnimatedGradient from "@/components/animated-gradient"
-import Spotlight from "@/components/spotlight"
 
 export default function ReferencesPage() {
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-white">
       {/* Animated gradient background */}
       <AnimatedGradient />
-
-      {/* Spotlight effect */}
-      <Spotlight />
 
       {/* Content container */}
       <div className="relative z-10">

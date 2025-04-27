@@ -1,5 +1,4 @@
 "use client"
-
 import type React from "react"
 
 import { useState, useEffect } from "react"
@@ -30,7 +29,9 @@ export default function ChatPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowWelcome(false)
-    }, 2500)
+    }, 2000)
+    
+    return () => clearTimeout(timer)
   }, [])
 
   const handleSend = () => {
@@ -110,7 +111,8 @@ export default function ChatPage() {
 
   return (
     <SidebarProvider>
-      {showWelcome && <WelcomeAnimation />}
+    {!showWelcome && (
+      <>
       <AppSidebar />
       <SidebarInset className="bg-white flex flex-col h-screen"> 
         <header className="h-16 border-b border-zinc-200 flex items-center px-6 justify-between bg-white">
@@ -208,6 +210,9 @@ export default function ChatPage() {
           </div>
         </div>
       </SidebarInset>
+      </>
+    )}
+    {showWelcome && <WelcomeAnimation />}
     </SidebarProvider>
   )
 }

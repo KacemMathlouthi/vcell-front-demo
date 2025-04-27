@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button"
 import AnimatedGradient from "@/components/animated-gradient"
 import Header from "@/components/header"
-import Spotlight from "@/components/spotlight"
 import { useRouter } from "next/navigation" 
 
 export default function Home() {
@@ -13,9 +12,6 @@ export default function Home() {
     <div className="relative min-h-screen w-full overflow-hidden bg-white">
       {/* Animated gradient background */}
       <AnimatedGradient />
-
-      {/* Spotlight effect */}
-      <Spotlight />
 
       {/* Content container */}
       <div className="relative z-10">
