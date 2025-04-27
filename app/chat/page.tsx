@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { FileUp, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -14,6 +14,7 @@ import { ModelSelector } from "@/components/chat/model-selector"
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/chat/app-sidebar"
 import { Label } from "@/components/ui/label"
+import { WelcomeAnimation } from "@/components/chat/welcome-animation"
 
 export default function ChatPage() {
   const [messages, setMessages] = useState<Array<{ role: string; content: string }>>([])
@@ -24,6 +25,13 @@ export default function ChatPage() {
   const [thinkingTime, setThinkingTime] = useState(0)
   const [thinkingCollapsed, setThinkingCollapsed] = useState(false)
   const [thinkingOutputs, setThinkingOutputs] = useState<string[]>([])
+  const [showWelcome, setShowWelcome] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowWelcome(false)
+    }, 2500)
+  }, [])
 
   const handleSend = () => {
     if (!input.trim()) return
@@ -102,12 +110,13 @@ export default function ChatPage() {
 
   return (
     <SidebarProvider>
+      {showWelcome && <WelcomeAnimation />}
       <AppSidebar />
-      <SidebarInset className="bg-white flex flex-col h-screen"> {/* Make SidebarInset a flex column and full height */}
+      <SidebarInset className="bg-white flex flex-col h-screen"> 
         <header className="h-16 border-b border-zinc-200 flex items-center px-6 justify-between bg-white">
           <div className="flex items-center gap-3">
             <SidebarTrigger className="text-zinc-800" />
-            <h1 className="text-lg font-semibold tracking-tight">Chat Assistant</h1>
+            <h1 className="text-lg font-semibold tracking-tight">Smart VCell Model Explorer</h1>
           </div>
           <ModelSelector />
         </header>
@@ -120,7 +129,7 @@ export default function ChatPage() {
               <PromptTemplates onSelectPrompt={(prompt) => setInput(prompt)} />
             </div>
           ) : (
-            <div className="space-y-8 pb-24"> {/* Remove max-w-4xl mx-auto here, it's on parent */}
+            <div className="space-y-8 pb-24">
               {messages.map((message, index) => (
                 <div key={index} className={`${message.role === "user" ? "flex justify-end" : ""}`}>
                   <Card
@@ -143,9 +152,6 @@ export default function ChatPage() {
                   className="flex items-center justify-center cursor-pointer"
                   onClick={() => setThinkingCollapsed(false)}
                 >
-                  <div className="px-4 py-2 bg-zinc-100 rounded-full text-sm font-medium text-zinc-700 hover:bg-zinc-200 transition-colors">
-                    Thought for {thinkingTime} seconds
-                  </div>
                 </div>
               )}
             </div>
