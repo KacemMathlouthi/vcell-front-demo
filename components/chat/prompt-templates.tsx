@@ -1,7 +1,7 @@
 "use client"
 
 import { Card } from "@/components/ui/card"
-import { Sparkles, Brain, Database, FileSearch } from "lucide-react"
+import { Search, Network, BookOpenText, FileText } from "lucide-react"
 
 interface PromptTemplatesProps {
   onSelectPrompt: (prompt: string) => void
@@ -10,29 +10,28 @@ interface PromptTemplatesProps {
 export function PromptTemplates({ onSelectPrompt }: PromptTemplatesProps) {
   const templates = [
     {
-      icon: <Sparkles className="h-5 w-5 text-zinc-900" />,
-      title: "Analyze protein structure",
-      description: "Upload a PDB file and get a detailed analysis of the protein structure",
-      prompt: "Can you analyze this protein structure and identify potential binding sites?",
+      icon: <Search className="h-5 w-5 text-zinc-900" />,
+      title: "Explore VCell Models",
+      description: "Search for models based on user, geometry, solver, or biological focus",
+      prompt: "List all VCell models created by user 'ion'. Also, show models that deal with calcium signaling and use the CVODE solver.",
     },
     {
-      icon: <Brain className="h-5 w-5 text-zinc-900" />,
-      title: "Compare gene expressions",
-      description: "Compare gene expression data between different conditions",
-      prompt:
-        "I have gene expression data from two different conditions. Can you help me identify differentially expressed genes?",
+      icon: <Network className="h-5 w-5 text-zinc-900" />,
+      title: "Analyze a Specific Model",
+      description: "Get detailed insights about reactions, parameters, and simulations in a VCell model",
+      prompt: "For the model 'C3_plant_with_PCCM', describe the number of reactions, parameters used, and simulations performed.",
     },
     {
-      icon: <Database className="h-5 w-5 text-zinc-900" />,
-      title: "Query biomodel database",
-      description: "Search for biomodels related to your research",
-      prompt: "Find biomodels related to calcium signaling in cardiac cells",
+      icon: <BookOpenText className="h-5 w-5 text-zinc-900" />,
+      title: "Learn VCell Techniques",
+      description: "Get help using VCell software features and tools",
+      prompt: "Explain how to define a geometry in VCell and how to plot multiple simulation runs.",
     },
     {
-      icon: <FileSearch className="h-5 w-5 text-zinc-900" />,
-      title: "Summarize research paper",
-      description: "Get a concise summary of a research paper",
-      prompt: "Can you summarize this research paper on CRISPR-Cas9 gene editing techniques?",
+      icon: <FileText className="h-5 w-5 text-zinc-900" />,
+      title: "Summarize Nature Research Paper",
+      description: "Summarize and explain the key points of the Nature article by Michael Blinov on AI tools in biology",
+      prompt: "Summarize and explain the Nature article by Michael Blinov about using AI to explore biological models. Focus on its significance for VCell and systems biology modeling.",
     },
   ]
 
@@ -41,7 +40,7 @@ export function PromptTemplates({ onSelectPrompt }: PromptTemplatesProps) {
       {templates.map((template, index) => (
         <Card
           key={index}
-          className="p-5 cursor-pointer hover:bg-zinc-50 transition-colors border-2 border-zinc-200"
+          className="p-5 cursor-pointer hover:bg-zinc-50 transition-colors border-2 border-zinc-200 hover:border-zinc-300"
           onClick={() => onSelectPrompt(template.prompt)}
         >
           <div className="flex gap-4">
