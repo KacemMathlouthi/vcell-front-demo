@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import { FileUp, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -11,6 +13,7 @@ import { AssistantMessage } from "@/components/chat/assistant-message"
 import { ModelSelector } from "@/components/chat/model-selector"
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/chat/app-sidebar"
+import { Label } from "@/components/ui/label"
 
 export default function ChatPage() {
   const [messages, setMessages] = useState<Array<{ role: string; content: string }>>([])
@@ -18,6 +21,9 @@ export default function ChatPage() {
   const [isThinking, setIsThinking] = useState(false)
   const [thinkingStep, setThinkingStep] = useState(0)
   const [showResponse, setShowResponse] = useState(false)
+  const [thinkingTime, setThinkingTime] = useState(0)
+  const [thinkingCollapsed, setThinkingCollapsed] = useState(false)
+  const [thinkingOutputs, setThinkingOutputs] = useState<string[]>([])
 
   const handleSend = () => {
     if (!input.trim()) return
@@ -30,6 +36,11 @@ export default function ChatPage() {
     setIsThinking(true)
     setThinkingStep(0)
     setShowResponse(false)
+    setThinkingCollapsed(false)
+    setThinkingOutputs([])
+
+    // Start timer
+    const startTime = Date.now()
 
     // Simulate thinking steps
     const steps = [
@@ -39,14 +50,28 @@ export default function ChatPage() {
       "Explain the API Response",
       "Check the Knowledge Base",
     ]
+
+    const outputs = [
+      "Intent: User is requesting analysis of protein structure data with focus on binding sites.",
+      "Parameters: { dataType: 'protein', analysisType: 'binding', format: 'PDB' }",
+      "API Response: Found 3 potential binding sites with confidence scores [0.92, 0.87, 0.76]",
+      "The highest confidence binding site is located at residues 156-172 with hydrophobic pocket characteristics",
+      "Findings consistent with Smith et al. (2023) and Garcia et al. (2023) research on similar structures",
+    ]
+
     let currentStep = 0
 
     const thinkingInterval = setInterval(() => {
       if (currentStep < steps.length - 1) {
         currentStep++
         setThinkingStep(currentStep)
+        setThinkingOutputs((prev) => [...prev, outputs[currentStep - 1]])
       } else {
         clearInterval(thinkingInterval)
+        const endTime = Date.now()
+        const thinkingSeconds = Math.round((endTime - startTime) / 1000)
+        setThinkingTime(thinkingSeconds)
+        setThinkingCollapsed(true)
         setIsThinking(false)
         setShowResponse(true)
 
@@ -61,6 +86,18 @@ export default function ChatPage() {
         ])
       }
     }, 1000)
+  }
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      if (file.name.endsWith(".vcml")) {
+        // Handle the VCML file
+        setInput(`Analyzing VCML file: ${file.name}`)
+      } else {
+        alert("Please upload only .vcml files")
+      }
+    }
   }
 
   return (
@@ -99,42 +136,67 @@ export default function ChatPage() {
                 </div>
               ))}
 
-              {isThinking && <ThinkingSequence currentStep={thinkingStep} />}
+              {isThinking && <ThinkingSequence currentStep={thinkingStep} outputs={thinkingOutputs} />}
+
+              {thinkingCollapsed && thinkingTime > 0 && (
+                <div
+                  className="flex items-center justify-center cursor-pointer"
+                  onClick={() => setThinkingCollapsed(false)}
+                >
+                  <div className="px-4 py-2 bg-zinc-100 rounded-full text-sm font-medium text-zinc-700 hover:bg-zinc-200 transition-colors">
+                    Thought for {thinkingTime} seconds
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
 
         <div className="p-6 border-t border-zinc-200 bg-white">
           <div className="max-w-4xl mx-auto">
-            <div className="flex gap-3 items-end">
-              <Button
-                variant="outline"
-                size="icon"
-                className="rounded-full h-12 w-12 flex-shrink-0 border-2 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900"
-              >
-                <FileUp size={20} />
-              </Button>
-              <div className="flex-1 relative">
-                <Textarea
-                  placeholder="Type your message here..."
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  className="resize-none pr-14 min-h-[100px] border-2 border-zinc-200 focus-visible:ring-zinc-900 text-zinc-900 placeholder:text-zinc-400"
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault()
-                      handleSend()
-                    }
-                  }}
-                />
-                <Button
-                  size="icon"
-                  className="absolute right-3 bottom-3 rounded-full h-10 w-10 bg-zinc-900 hover:bg-zinc-800"
-                  onClick={handleSend}
-                >
-                  <Send size={18} />
-                </Button>
+            <div className="flex flex-col gap-3">
+              <div className="flex gap-3">
+                <div className="flex-1 relative">
+                  <Textarea
+                    placeholder="Type your message here..."
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    className="resize-none border-2 border-zinc-200 focus-visible:ring-zinc-900 text-zinc-900 placeholder:text-zinc-400 min-h-[60px] max-h-[120px]"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault()
+                        handleSend()
+                      }
+                    }}
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <div className="relative">
+                    <input
+                      type="file"
+                      id="file-upload"
+                      className="sr-only"
+                      accept=".vcml"
+                      onChange={handleFileUpload}
+                    />
+                    <Label
+                      htmlFor="file-upload"
+                      className="cursor-pointer inline-flex h-12 w-12 items-center justify-center rounded-md border-2 border-zinc-200 bg-white hover:bg-zinc-100 transition-colors"
+                    >
+                      <FileUp size={20} className="text-zinc-900" />
+                      <span className="sr-only">Upload VCML file</span>
+                    </Label>
+                  </div>
+                  <Button
+                    size="icon"
+                    className="h-12 w-12 rounded-md bg-zinc-900 hover:bg-zinc-800"
+                    onClick={handleSend}
+                  >
+                    <Send size={18} />
+                  </Button>
+                </div>
               </div>
+              <div className="text-xs text-zinc-500 text-center">Only .vcml files are supported for upload</div>
             </div>
           </div>
         </div>
