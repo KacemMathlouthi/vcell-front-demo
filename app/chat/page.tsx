@@ -1,147 +1,144 @@
-"use client";
+"use client"
 
-import { useState, useRef, useEffect } from "react";
-import { Sidebar } from "@/components/chat/sidebar";
-import { ChatInterface } from "@/components/chat/chat-interface";
-import { PromptTemplates } from "@/components/chat/prompt-templates";
-import { ThinkingDialog } from "@/components/chat/thinking-dialog";
-import { ModelSelector } from "@/components/chat/model-selector";
-import { ChatInput } from "@/components/chat/chat-input";
-import { nanoid } from "@/lib/utils";
+import { useState } from "react"
+import { FileUp, Send } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { Textarea } from "@/components/ui/textarea"
+import { PromptTemplates } from "@/components/chat/prompt-templates"
+import { ThinkingSequence } from "@/components/chat/thinking-sequence"
+import { AssistantMessage } from "@/components/chat/assistant-message"
+import { ModelSelector } from "@/components/chat/model-selector"
+import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/chat/app-sidebar"
 
-// Mock message type
-interface Message {
-  id: string;
-  role: "user" | "assistant";
-  content: string;
-}
+export default function ChatPage() {
+  const [messages, setMessages] = useState<Array<{ role: string; content: string }>>([])
+  const [input, setInput] = useState("")
+  const [isThinking, setIsThinking] = useState(false)
+  const [thinkingStep, setThinkingStep] = useState(0)
+  const [showResponse, setShowResponse] = useState(false)
 
-export default function Home() {
-  const [activeChatId, setActiveChatId] = useState<string | null>(null);
-  const [isThinking, setIsThinking] = useState(false);
-  const [selectedModel, setSelectedModel] = useState("gpt-4o");
-  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const chatContainerRef = useRef<HTMLDivElement>(null);
-  
-  const handleNewChat = () => {
-    const newChatId = Date.now().toString();
-    setActiveChatId(newChatId);
-    setMessages([]);
-  };
+  const handleSend = () => {
+    if (!input.trim()) return
 
-  const handleFileUpload = (files: File[]) => {
-    setUploadedFiles(prev => [...prev, ...files]);
-  };
-
-  const handleTemplateClick = (template: string) => {
-    setInput(template);
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value);
-  };
-
-  // Mock responses based on input
-  const getMockResponse = (userInput: string): string => {
-    // Check if input contains specific keywords to generate different responses
-    if (userInput.toLowerCase().includes("protein") || userInput.toLowerCase().includes("folding")) {
-      return "biomodel-Based on your query about protein folding, I've analyzed the structure data. The folding pattern shows significant alpha-helix formations in the N-terminal region. The energy landscape suggests a stable conformation with multiple local minima.";
-    } else if (userInput.toLowerCase().includes("dna") || userInput.toLowerCase().includes("gene")) {
-      return "I've analyzed the genetic sequence you're asking about. The gene expression patterns indicate regulatory elements in the promoter region. This is consistent with recent findings in epigenetic research.";
-    } else if (userInput.toLowerCase().includes("neural") || userInput.toLowerCase().includes("brain")) {
-      return "Neural networks are computational models inspired by the human brain. They consist of interconnected nodes (neurons) that process and transmit information. Modern deep learning architectures use multiple layers of these neurons to learn complex patterns in data.";
-    } else {
-      return "Thank you for your question. Based on my analysis, this appears to be related to biological sciences. The current research suggests multiple approaches to this problem, with recent publications highlighting innovative methodologies.";
-    }
-  };
-
-  const simulateThinking = async () => {
-    setIsThinking(true);
-    setIsLoading(true);
-    
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 6000));
-    
-    setIsThinking(false);
-    
-    // Add assistant response
-    const response = getMockResponse(input);
-    setMessages(prev => [
-      ...prev, 
-      { id: nanoid(), role: "assistant", content: response }
-    ]);
-    
-    setIsLoading(false);
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!input.trim()) return;
-    
     // Add user message
-    setMessages(prev => [
-      ...prev, 
-      { id: nanoid(), role: "user", content: input }
-    ]);
-    
-    // Clear input
-    setInput("");
-    
-    // Simulate thinking and response
-    simulateThinking();
-  };
+    setMessages([...messages, { role: "user", content: input }])
+    setInput("")
 
-  useEffect(() => {
-    if (chatContainerRef.current && messages.length > 0) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
-  }, [messages]);
+    // Start thinking sequence
+    setIsThinking(true)
+    setThinkingStep(0)
+    setShowResponse(false)
+
+    // Simulate thinking steps
+    const steps = [
+      "Extract Intent",
+      "Extract Query Parameters",
+      "Query the API",
+      "Explain the API Response",
+      "Check the Knowledge Base",
+    ]
+    let currentStep = 0
+
+    const thinkingInterval = setInterval(() => {
+      if (currentStep < steps.length - 1) {
+        currentStep++
+        setThinkingStep(currentStep)
+      } else {
+        clearInterval(thinkingInterval)
+        setIsThinking(false)
+        setShowResponse(true)
+
+        // Add assistant response
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content:
+              "Based on your query, I've analyzed the biomodel data and found some interesting patterns. The protein structure shows significant conformational changes when bound to the ligand.\n\nHere are two visualizations of the model:\n\n[IMAGE1]\n\n[IMAGE2]\n\n## References\n1. Smith et al. (2023). *Structural analysis of protein-ligand interactions*. Journal of Molecular Biology, 45(2), 112-128.\n2. Johnson & Lee (2022). *Computational approaches to protein modeling*. Nature Methods, 18(3), 76-89.\n3. Garcia et al. (2023). *Recent advances in biomodel visualization*. Bioinformatics, 39(4), 201-215.",
+          },
+        ])
+      }
+    }, 1000)
+  }
 
   return (
-    <div className="flex h-screen bg-background">
-      <Sidebar 
-        onNewChat={handleNewChat} 
-        activeChatId={activeChatId} 
-        setActiveChatId={setActiveChatId}
-      />
-      
-      <main className="flex-1 flex flex-col overflow-hidden">
-        <div className="flex justify-end p-4">
-          <ModelSelector 
-            selectedModel={selectedModel} 
-            setSelectedModel={setSelectedModel} 
-          />
-        </div>
-        
-        <div className="flex-1 overflow-auto" ref={chatContainerRef}>
-          {activeChatId ? (
-            <ChatInterface 
-              messages={messages} 
-              uploadedFiles={uploadedFiles}
-            />
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset className="bg-white">
+        <header className="h-16 border-b border-zinc-200 flex items-center px-6 justify-between bg-white">
+          <div className="flex items-center gap-3">
+            <SidebarTrigger className="text-zinc-800" />
+            <h1 className="text-lg font-semibold tracking-tight">Chat Assistant</h1>
+          </div>
+          <ModelSelector />
+        </header>
+
+        <div className="flex-1 overflow-auto p-6 space-y-8">
+          {messages.length === 0 ? (
+            <div className="h-full flex flex-col items-center justify-center">
+              <h2 className="text-3xl font-bold mb-8 text-zinc-900 tracking-tight">How can I help you today?</h2>
+              <PromptTemplates onSelectPrompt={(prompt) => setInput(prompt)} />
+            </div>
           ) : (
-            <PromptTemplates onTemplateClick={handleTemplateClick} />
+            <div className="space-y-8 pb-24 max-w-4xl mx-auto">
+              {messages.map((message, index) => (
+                <div key={index} className={`${message.role === "user" ? "flex justify-end" : ""}`}>
+                  <Card
+                    className={`max-w-3xl ${message.role === "user" ? "bg-zinc-900 text-white" : "bg-white border-2 border-zinc-200"}`}
+                  >
+                    <div className="p-5">
+                      {message.role === "assistant" ? (
+                        <AssistantMessage content={message.content} />
+                      ) : (
+                        <div className="whitespace-pre-wrap">{message.content}</div>
+                      )}
+                    </div>
+                  </Card>
+                </div>
+              ))}
+
+              {isThinking && <ThinkingSequence currentStep={thinkingStep} />}
+            </div>
           )}
         </div>
-        
-        <div className="p-4 border-t">
-          {activeChatId && (
-            <form onSubmit={handleSubmit} className="flex gap-2">
-              <ChatInput 
-                value={input} 
-                onChange={handleInputChange} 
-                onFileUpload={handleFileUpload}
-                disabled={isThinking || isLoading}
-              />
-            </form>
-          )}
+
+        <div className="p-6 border-t border-zinc-200 bg-white">
+          <div className="max-w-4xl mx-auto">
+            <div className="flex gap-3 items-end">
+              <Button
+                variant="outline"
+                size="icon"
+                className="rounded-full h-12 w-12 flex-shrink-0 border-2 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900"
+              >
+                <FileUp size={20} />
+              </Button>
+              <div className="flex-1 relative">
+                <Textarea
+                  placeholder="Type your message here..."
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  className="resize-none pr-14 min-h-[100px] border-2 border-zinc-200 focus-visible:ring-zinc-900 text-zinc-900 placeholder:text-zinc-400"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault()
+                      handleSend()
+                    }
+                  }}
+                />
+                <Button
+                  size="icon"
+                  className="absolute right-3 bottom-3 rounded-full h-10 w-10 bg-zinc-900 hover:bg-zinc-800"
+                  onClick={handleSend}
+                >
+                  <Send size={18} />
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
-      </main>
-      
-      {isThinking && <ThinkingDialog />}
-    </div>
-  );
+      </SidebarInset>
+    </SidebarProvider>
+  )
 }

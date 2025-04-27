@@ -1,60 +1,46 @@
 "use client"
 
-import { Check, ChevronsUpDown } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { cn } from "@/lib/utils"
 import { useState } from "react"
+import { Check, ChevronDown } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
-const models = [
-  { value: "gpt-4o", label: "GPT-4o" },
-  { value: "gpt-4-turbo", label: "GPT-4 Turbo" },
-  { value: "claude-3-opus", label: "Claude 3 Opus" },
-  { value: "claude-3-sonnet", label: "Claude 3 Sonnet" },
-  { value: "gemini-pro", label: "Gemini Pro" },
-  { value: "llama-3", label: "Llama 3" },
-]
+export function ModelSelector() {
+  const models = [
+    { id: "gpt-4o", name: "GPT-4o", description: "Most capable model for complex tasks" },
+    { id: "gpt-4-turbo", name: "GPT-4 Turbo", description: "Fast and powerful for most tasks" },
+    { id: "claude-3-opus", name: "Claude 3 Opus", description: "Advanced reasoning and comprehension" },
+    { id: "gemini-pro", name: "Gemini Pro", description: "Google's multimodal AI model" },
+    { id: "llama-3", name: "Llama 3", description: "Open source model with strong capabilities" },
+  ]
 
-interface ModelSelectorProps {
-  selectedModel: string
-  setSelectedModel: (model: string) => void
-}
-
-export function ModelSelector({ selectedModel, setSelectedModel }: ModelSelectorProps) {
-  const [open, setOpen] = useState(false)
+  const [selectedModel, setSelectedModel] = useState(models[0])
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button variant="outline" role="combobox" aria-expanded={open} className="w-[180px] justify-between">
-          {selectedModel ? models.find((model) => model.value === selectedModel)?.label : "Select model..."}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" className="gap-2 border-2 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900">
+          <span className="text-sm font-medium">{selectedModel.name}</span>
+          <ChevronDown size={16} />
         </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[180px] p-0">
-        <Command>
-          <CommandInput placeholder="Search model..." />
-          <CommandList>
-            <CommandEmpty>No model found.</CommandEmpty>
-            <CommandGroup>
-              {models.map((model) => (
-                <CommandItem
-                  key={model.value}
-                  value={model.value}
-                  onSelect={(currentValue) => {
-                    setSelectedModel(currentValue)
-                    setOpen(false)
-                  }}
-                >
-                  <Check className={cn("mr-2 h-4 w-4", selectedModel === model.value ? "opacity-100" : "opacity-0")} />
-                  {model.label}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-[240px] border-2 border-zinc-200">
+        {models.map((model) => (
+          <DropdownMenuItem
+            key={model.id}
+            className="flex items-start gap-3 py-3 px-4 cursor-pointer"
+            onClick={() => setSelectedModel(model)}
+          >
+            <div className="mt-0.5">
+              {selectedModel.id === model.id ? <Check size={16} className="text-zinc-900" /> : <div className="w-4" />}
+            </div>
+            <div>
+              <div className="font-medium text-zinc-900">{model.name}</div>
+              <div className="text-xs text-zinc-600 mt-1">{model.description}</div>
+            </div>
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
