@@ -103,7 +103,7 @@ export default function ChatPage() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset className="bg-white">
+      <SidebarInset className="bg-white flex flex-col h-screen"> {/* Make SidebarInset a flex column and full height */}
         <header className="h-16 border-b border-zinc-200 flex items-center px-6 justify-between bg-white">
           <div className="flex items-center gap-3">
             <SidebarTrigger className="text-zinc-800" />
@@ -112,14 +112,15 @@ export default function ChatPage() {
           <ModelSelector />
         </header>
 
-        <div className="flex-1 overflow-auto p-6 space-y-8">
+        {/* Chat history area */}
+        <div className="flex-1 overflow-y-auto p-6 space-y-8 max-w-4xl mx-auto w-full">
           {messages.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center">
               <h2 className="text-3xl font-bold mb-8 text-zinc-900 tracking-tight">How can I help you today?</h2>
               <PromptTemplates onSelectPrompt={(prompt) => setInput(prompt)} />
             </div>
           ) : (
-            <div className="space-y-8 pb-24 max-w-4xl mx-auto">
+            <div className="space-y-8 pb-24"> {/* Remove max-w-4xl mx-auto here, it's on parent */}
               {messages.map((message, index) => (
                 <div key={index} className={`${message.role === "user" ? "flex justify-end" : ""}`}>
                   <Card
@@ -151,8 +152,9 @@ export default function ChatPage() {
           )}
         </div>
 
-        <div className="p-6 border-t border-zinc-200 bg-white">
-          <div className="max-w-4xl mx-auto">
+        {/* Fixed input area */}
+        <div className="border-t border-zinc-200 bg-white w-full sticky bottom-0 left-0 z-10">
+          <div className="max-w-4xl mx-auto p-6">
             <div className="flex flex-col gap-3">
               <div className="flex gap-3">
                 <div className="flex-1 relative">
