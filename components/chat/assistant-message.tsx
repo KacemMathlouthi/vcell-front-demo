@@ -14,11 +14,11 @@ export function AssistantMessage({ content }: AssistantMessageProps) {
   const processedContent = content
     .replace(
       "[IMAGE1]",
-      '<div class="my-5"><img src="/placeholder.svg?height=200&width=400" alt="Biomodel visualization 1" class="rounded-md w-full border-2 border-zinc-200" /></div>',
+      '<div class="my-5"><img src="/diagram1.png?height=200&width=400" alt="Biomodel visualization 1" class="rounded-md w-full border-2 border-zinc-200" /></div>',
     )
     .replace(
       "[IMAGE2]",
-      '<div class="my-5"><img src="/placeholder.svg?height=200&width=400" alt="Biomodel visualization 2" class="rounded-md w-full border-2 border-zinc-200" /></div>',
+      '<div class="my-5"><img src="/diagram2.png?height=200&width=400" alt="Biomodel visualization 2" class="rounded-md w-full border-2 border-zinc-200" /></div>',
     )
 
   // Split content to separate references section
