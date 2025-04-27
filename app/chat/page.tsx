@@ -91,14 +91,14 @@ export default function ChatPage() {
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
-      if (file.name.endsWith(".vcml")) {
-        // Handle the VCML file
-        setInput(`Analyzing VCML file: ${file.name}`)
+      const fileName = file.name.toLowerCase()
+      if (fileName.endsWith(".vcml") || fileName.endsWith(".sbml")) {
+        setInput(`Analyzing file: ${file.name}`)
       } else {
-        alert("Please upload only .vcml files")
+        alert("Please upload only .vcml or .sbml files")
       }
     }
-  }
+  }  
 
   return (
     <SidebarProvider>
@@ -136,8 +136,7 @@ export default function ChatPage() {
                 </div>
               ))}
 
-              {isThinking && <ThinkingSequence currentStep={thinkingStep} outputs={thinkingOutputs} />}
-
+              {isThinking && <ThinkingSequence currentStep={thinkingStep} />}
               {thinkingCollapsed && thinkingTime > 0 && (
                 <div
                   className="flex items-center justify-center cursor-pointer"
@@ -161,7 +160,7 @@ export default function ChatPage() {
                     placeholder="Type your message here..."
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    className="resize-none border-2 border-zinc-200 focus-visible:ring-zinc-900 text-zinc-900 placeholder:text-zinc-400 min-h-[60px] max-h-[120px]"
+                    className="resize-none border-2 border-zinc-200 focus-visible:ring-zinc-900 text-zinc-900 placeholder:text-zinc-400 min-h-[30] max-h-[50px]"
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && !e.shiftKey) {
                         e.preventDefault()
@@ -176,7 +175,7 @@ export default function ChatPage() {
                       type="file"
                       id="file-upload"
                       className="sr-only"
-                      accept=".vcml"
+                      accept=".vcml,.sbml"
                       onChange={handleFileUpload}
                     />
                     <Label
@@ -184,7 +183,7 @@ export default function ChatPage() {
                       className="cursor-pointer inline-flex h-12 w-12 items-center justify-center rounded-md border-2 border-zinc-200 bg-white hover:bg-zinc-100 transition-colors"
                     >
                       <FileUp size={20} className="text-zinc-900" />
-                      <span className="sr-only">Upload VCML file</span>
+                      <span className="sr-only">Upload VCML or SBML file</span>
                     </Label>
                   </div>
                   <Button
@@ -196,7 +195,7 @@ export default function ChatPage() {
                   </Button>
                 </div>
               </div>
-              <div className="text-xs text-zinc-500 text-center">Only .vcml files are supported for upload</div>
+              <div className="text-xs text-zinc-500 text-center">Supported file types: .vcml, .sbml</div>
             </div>
           </div>
         </div>
