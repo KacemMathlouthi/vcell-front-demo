@@ -136,7 +136,7 @@ export default function ChatPage() {
                 </div>
               ))}
 
-              {isThinking && <ThinkingSequence currentStep={thinkingStep} />}
+              {isThinking && <ThinkingSequence currentStep={thinkingStep} outputs={thinkingOutputs} />}
               {thinkingCollapsed && thinkingTime > 0 && (
                 <div
                   className="flex items-center justify-center cursor-pointer"
